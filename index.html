@@ -5,65 +5,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Список задач</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <header>
-        <div>
-            <h1>Список задач</h1>
+    <header class="header">
+        <div class="header__container">
+            <h1 class="header__title">Список задач</h1>
         </div>
     </header>
-    <main>
-        <section>
-            <h2>
-                Новая задача
-            </h2>
-            <form>
-                <div>
-                    <input type="text">
-                    <button>Добавить</button>
+
+    <main class="main">
+        <section class="task-form">
+            <h2 class="task-form__title">Новая задача</h2>
+            <form class="task-form__form">
+                <div class="task-form__input-group">
+                    <input class="task-form__input" type="text">
+                    <button class="button button--form" type="submit">Добавить</button>
                 </div>
             </form>
         </section>
 
-        <section>
-            <div>
-                <h2>Бэклог</h2>
-                <ul>
-                    <li>Первая задача</li>
-                    <li>Вторая задача</li>
-                    <li>Третья задача</li>
-                </ul>
-            </div>
-            <div>
-                <h2>В процессе</h2>
-                <ul>
-                    <li>Первая задача</li>
-                    <li>Вторая задача</li>
-                    <li>Третья задача</li>
-                </ul>
-            </div>
-            <div>
-                <h2>Готово</h2>
-                <ul>
-                    <li>Первая задача</li>
-                    <li>Вторая задача</li>
-                    <li>Третья задача</li>
-                </ul>
-            </div>
-            <div>
-                <h2>Корзина</h2>
-                <ul>
-                    <li>Первая задача</li>
-                    <li>Вторая задача</li>
-                    <li>Третья задача</li>
-                </ul>
+        <section class="board">
+            <div class="board__container">
+                <div class="column column--backlog">
+                    <h2 class="column__title">Бэклог</h2>
+                    <ul class="column__list">
+                        <li class="column__task">Первая задача</li>
+                        <li class="column__task">Вторая задача</li>
+                        <li class="column__task">Третья задача</li>
+                        <li class="column__task">Четвертая задача</li>
+                    </ul>
+                </div>
+
+                <div class="column column--progress">
+                    <h2 class="column__title">В процессе</h2>
+                    <ul class="column__list">
+                        <li class="column__task">Первая задача</li>
+                        <li class="column__task">Вторая задача</li>
+                        <li class="column__task">Третья задача</li>
+                    </ul>
+                </div>
+
+                <div class="column column--done">
+                    <h2 class="column__title">Готово</h2>
+                    <ul class="column__list">
+                        <li class="column__task">Первая задача</li>
+                    </ul>
+                </div>
+
+                <div class="column column--trash">
+                    <h2 class="column__title">Корзина</h2>
+                    <ul class="column__list">
+                        <li class="column__task">Первая задача</li>
+                        <li class="column__task">Вторая задача</li>
+                        <li class="column__task">Третья задача</li>
+                    </ul>
+                    <button type="button" class="button button--clear">Очистить</button>
+                </div>
             </div>
         </section>
     </main>
-    <footer>
-        <p><small>// TODO: Написать что-нибудь умное для футера</small></p>
-        <p><a href="https://github.com/DmitryRz">GitHub</a></p>
+
+    <footer class="footer">
+        <p class="footer__text"><small>// TODO: Написать что-нибудь умное для футера</small></p>
+        <p class="footer__link"><a href="https://github.com/DmitryRz">GitHub</a></p>
     </footer>
 </body>
 
