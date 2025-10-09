@@ -1,16 +1,22 @@
 import { createElement } from '../framework/render.js';
 
 
-function createColumnItemComponentTemplate() {
+function createColumnItemComponentTemplate(task) {
+    const { title } = task;
+
     return (
-            `<li class="column__task">Первая задача</li>`
+            `<li class="column__task">${title}</li>`
     );
 }
 
 
 export default class ColumnItemComponent {
+    constructor(task) {
+        this.task = task;
+    }
+
     getTemplate() {
-        return createColumnItemComponentTemplate();
+        return createColumnItemComponentTemplate(this.task);
     }
 
 
