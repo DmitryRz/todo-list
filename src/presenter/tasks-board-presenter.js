@@ -20,7 +20,7 @@ export default class BoardPresenter {
     init() {
         this.#boardTask = [...this.#taskModel.getTasks()];
         render(this.#boardComponent, this.#boardContainer);
-        console.log(Status)
+        
         for (let i = 0; i < Status.length; i++) {
             const columnComponent = new ColumnComponent(Status[i]);
             render(columnComponent, this.#boardComponent.getElement());
