@@ -1,4 +1,4 @@
-export const task = [
+export const tasks = [
     {
         "id": 1,
         "title": "Разработать новый лендинг",

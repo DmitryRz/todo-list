@@ -15,13 +15,25 @@ export default class BoardPresenter {
     constructor({ boardContainer, taskModel }) {
         this.#boardContainer = boardContainer;
         this.#taskModel = taskModel;
+
+        this.#taskModel.addObserver(this.#handleModelChange.bind(this));
     }
 
     init() {
-        this.#boardTask = [...this.#taskModel.task];
+        this.#boardTask = [...this.#taskModel.tasks];
         render(this.#boardComponent, this.#boardContainer);
 
         this.#renderBoard();
+    }
+
+    #handleModelChange() {
+        this.#boardTask = [...this.#taskModel.tasks];
+        this.#clearBoard();
+        this.#renderBoard();
+    }
+
+    #clearBoard() {
+        this.#boardComponent.element.innerHTML = '';
     }
 
     #renderBoard() {
@@ -67,8 +79,8 @@ export default class BoardPresenter {
         render(clearButtonComponent, columnComponent.element);
     }
 
-    #handleClearClick(statusValue) {
-        console.log(`Очищаем задачи со статусом: ${statusValue}`);
+    #handleClearClick() {
+        this.#taskModel.clearTrash();
     }
 
     #getTasksByStatus(statusValue) {

@@ -11,11 +11,14 @@ const bodyContainer = document.querySelector('.body');
 const mainContainer = document.querySelector('.main');
 
 render(new HeaderComponent(), bodyContainer, RenderPosition.AFTERBEGIN);
-render(new TaskFormComponent(), mainContainer, RenderPosition.AFTERBEGIN);
+
 render(new BoardComponent(), mainContainer, RenderPosition.BEFOREEND);
 const boardContainer = document.querySelector('.board__container');
 
 const taskModel = new TaskModel();
+
+const taskFormComponent = new TaskFormComponent({ taskModel });
+render(taskFormComponent, mainContainer, RenderPosition.AFTERBEGIN);
 
 const boardPresenter = new BoardPresenter({ 
     boardContainer: boardContainer,
