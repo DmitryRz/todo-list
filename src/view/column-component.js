@@ -1,44 +1,24 @@
-import { createElement } from '../framework/render.js';
+import { AbstractComponent } from '../framework/view/abstract-component.js';
 
-
-function createColumnComponentTemplate(status) {
-    const { value, label } = status;
-    return (
-        `<div class="column column--${value}">
-            <h2 class="column__title">${label}</h2>
-            <ul class="column__list">
-            
-            </ul>
-        </div>`
-    );
-}
-
-
-export default class ColumnComponent {
+export default class ColumnComponent extends AbstractComponent {
     constructor(status) {
+        super();
         this.status = status;
     }
 
-    getTemplate() {
-        return createColumnComponentTemplate(this.status);
-    }
-
-
-    getElement() {
-        if (!this.element) {
-            this.element = createElement(this.getTemplate());
-        }
-
-
-        return this.element;
+    get template() {
+        const { value, label } = this.status;
+        return (
+            `<div class="column column--${value}">
+                <h2 class="column__title">${label}</h2>
+                <ul class="column__list">
+                
+                </ul>
+            </div>`
+        );
     }
 
     getListElement() {
-        return this.getElement().querySelector('.column__list');
-    }
-
-
-    removeElement() {
-        this.element = null;
+        return this.element.querySelector('.column__list');
     }
 }
