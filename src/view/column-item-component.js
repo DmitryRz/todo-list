@@ -1,36 +1,27 @@
 import { createElement } from '../framework/render.js';
+import { AbstractComponent } from '../framework/view/abstract-component.js';
 
 
 function createColumnItemComponentTemplate(task) {
     const { title } = task;
 
     return (
-            `<li class="column__task">${title}</li>`
+        `<li class="column__task">${title}</li>`
     );
 }
 
 
-export default class ColumnItemComponent {
+export default class ColumnItemComponent extends AbstractComponent {
     constructor(task) {
+        super(); 
         this.task = task;
     }
 
-    getTemplate() {
-        return createColumnItemComponentTemplate(this.task);
-    }
+    get template() {
+        const { title } = this.task;
 
-
-    getElement() {
-        if (!this.element) {
-            this.element = createElement(this.getTemplate());
-        }
-
-
-        return this.element;
-    }
-
-
-    removeElement() {
-        this.element = null;
+        return (
+            `<li class="column__task">${title}</li>`
+        );
     }
 }

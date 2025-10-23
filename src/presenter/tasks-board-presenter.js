@@ -1,15 +1,15 @@
 import ColumnItemComponent from '../view/column-item-component.js';
 import ColumnComponent from '../view/column-component.js';
 import BoardComponent from '../view/board-component.js';
+import EmptyListComponent from '../view/empty-list-component.js';
+import ClearButtonComponent from '../view/clear-button-component.js';
 import { Status } from '../const.js';
 import { render } from '../framework/render.js';
 
 export default class BoardPresenter {
     #boardComponent = new BoardComponent();
-
     #boardContainer = null;
     #taskModel = null;
-
     #boardTask = [];
 
     constructor({ boardContainer, taskModel }) {
@@ -18,19 +18,60 @@ export default class BoardPresenter {
     }
 
     init() {
-        this.#boardTask = [...this.#taskModel.getTasks()];
+        this.#boardTask = [...this.#taskModel.task];
         render(this.#boardComponent, this.#boardContainer);
-        
-        for (let i = 0; i < Status.length; i++) {
-            const columnComponent = new ColumnComponent(Status[i]);
-            render(columnComponent, this.#boardComponent.getElement());
 
-            for (let j = 0; j < this.#boardTask.length; j++) {
-                if (this.#boardTask[j].status === Status[i].value) {
-                    const columnItemComponent = new ColumnItemComponent(this.#boardTask[j]);
-                    render(columnItemComponent, columnComponent.getListElement());
-                }
-            }
+        this.#renderBoard();
+    }
+
+    #renderBoard() {
+        Status.forEach((statusObj) => {
+            const columnComponent = new ColumnComponent(statusObj);
+            render(columnComponent, this.#boardComponent.element);
+
+            this.#renderTasksList(columnComponent, statusObj.value);
+        });
+    }
+
+    #renderTasksList(columnComponent, statusValue) {
+        const tasksForStatus = this.#getTasksByStatus(statusValue);
+
+        if (tasksForStatus.length === 0) {
+            this.#renderEmptyList(columnComponent.getListElement());
+        } else {
+            tasksForStatus.forEach((task) => {
+                this.#renderTask(task, columnComponent.getListElement());
+            });
         }
+        
+        if (statusValue === "trash") {
+            this.#renderClearButton(columnComponent, statusValue);
+        }
+    }
+
+    #renderTask(task, container) {
+        const columnItemComponent = new ColumnItemComponent(task);
+        render(columnItemComponent, container);
+    }
+
+    #renderEmptyList(container) {
+        const emptyListComponent = new EmptyListComponent();
+        render(emptyListComponent, container);
+    }
+
+    #renderClearButton(columnComponent, statusValue) {
+        const clearButtonComponent = new ClearButtonComponent({
+            onClick: () => this.#handleClearClick(statusValue)
+        });
+
+        render(clearButtonComponent, columnComponent.element);
+    }
+
+    #handleClearClick(statusValue) {
+        console.log(`Очищаем задачи со статусом: ${statusValue}`);
+    }
+
+    #getTasksByStatus(statusValue) {
+        return this.#boardTask.filter(task => task.status === statusValue);
     }
 }
