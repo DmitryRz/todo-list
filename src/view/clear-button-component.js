@@ -4,7 +4,7 @@ export default class ClearButtonComponent extends AbstractComponent {
   constructor({ onClick }) {
     super();
     this._onClick = onClick;
-    
+
     this.#setClickHandler();
   }
 
