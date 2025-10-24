@@ -11,6 +11,7 @@ export default class BoardPresenter {
     #boardContainer = null;
     #taskModel = null;
     #boardTask = [];
+    #columnComponents = new Map();
 
     constructor({ boardContainer, taskModel }) {
         this.#boardContainer = boardContainer;
@@ -24,22 +25,26 @@ export default class BoardPresenter {
         render(this.#boardComponent, this.#boardContainer);
 
         this.#renderBoard();
+        this.#setEventHandlers();
     }
 
     #handleModelChange() {
         this.#boardTask = [...this.#taskModel.tasks];
         this.#clearBoard();
         this.#renderBoard();
+        this.#setEventHandlers();
     }
 
     #clearBoard() {
         this.#boardComponent.element.innerHTML = '';
+        this.#columnComponents.clear();
     }
 
     #renderBoard() {
         Status.forEach((statusObj) => {
             const columnComponent = new ColumnComponent(statusObj);
             render(columnComponent, this.#boardComponent.element);
+            this.#columnComponents.set(statusObj.value, columnComponent);
 
             this.#renderTasksList(columnComponent, statusObj.value);
         });
@@ -64,6 +69,7 @@ export default class BoardPresenter {
     #renderTask(task, container) {
         const columnItemComponent = new ColumnItemComponent(task);
         render(columnItemComponent, container);
+        columnItemComponent.setDragHandlers();
     }
 
     #renderEmptyList(container) {
@@ -77,6 +83,19 @@ export default class BoardPresenter {
         });
 
         render(clearButtonComponent, columnComponent.element);
+    }
+
+    #setEventHandlers() {
+        this.#boardComponent.element.addEventListener('taskdrop', this.#handleTaskDrop.bind(this));
+        
+        this.#columnComponents.forEach(column => {
+            column.setDropHandlers();
+        });
+    }
+
+    #handleTaskDrop(evt) {
+        const { taskId, newStatus } = evt.detail;
+        this.#taskModel.updateTaskStatus(taskId, newStatus);
     }
 
     #handleClearClick() {
